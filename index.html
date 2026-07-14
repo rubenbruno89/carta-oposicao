@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Carta de Oposição - Contribuição Sindical</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+  header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 25px 30px;
+  }
+  header h1 { font-size: 1.6rem; margin-bottom: 5px; }
+  header p { opacity: 0.85; font-size: 0.95rem; }
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 30px;
+  }
+  @media (max-width: 850px) {
+    .content { grid-template-columns: 1fr; }
+  }
+  .form-section h2, .preview-section h2 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #667eea;
+  }
+  .form-group { margin-bottom: 14px; }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+  }
+  input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  button {
+    flex: 1;
+    min-width: 120px;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+  button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .btn-copy   { background: #27ae60; color: #fff; }
+  .btn-print  { background: #2980b9; color: #fff; }
+  .btn-download { background: #8e44ad; color: #fff; }
+  .btn-clear  { background: #e74c3c; color: #fff; }
+  .preview {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 30px;
+    font-family: 'Times New Roman', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    min-height: 450px;
+    white-space: pre-wrap;
+  }
+  .preview .placeholder { color: #c0392b; font-weight: bold; }
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #27ae60;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; }
+    header, .form-section, .buttons { display: none !important; }
+    .content { display: block; padding: 20px; }
+    .preview { border: none; background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📄 Gerador de Carta de Oposição Sindical</h1>
+    <p>Preencha os dados abaixo para gerar sua carta de oposição ao desconto da contribuição sindical/assistencial.</p>
+  </header>
+
+  <div class="content">
+    <div class="form-section">
+      <h2>Dados para a Carta</h2>
+
+      <div class="form-group">
+        <label for="sindicato">Nome do Sindicato *</label>
+        <input type="text" id="sindicato" placeholder="Ex.: Sindicato dos Comerciários de São Paulo">
+      </div>
+
+      <div class="form-group">
+        <label for="nome">Nome Completo *</label>
+        <input type="text" id="nome" placeholder="Seu nome completo">
+      </div>
+
+      <div class="form-group">
+        <label for="carteira">Nº da Carteira Profissional *</label>
+        <input type="text" id="carteira" placeholder="Ex.: 123.456">
+      </div>
+
+      <div class="form-group">
+        <label for="empresa">Nome da Empresa *</label>
+        <input type="text" id="empresa" placeholder="Ex.: Empresa XYZ Ltda.">
+      </div>
+
+      <div class="form-group">
+        <label for="cnpj">CNPJ da Empresa *</label>
+        <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+      </div>
+
+      <div class="form-group">
+        <label for="endereco">Endereço da Empresa *</label>
+        <input type="text" id="endereco" placeholder="Rua, nº, bairro, cidade - UF">
+      </div>
+
+      <div class="form-group">
+        <label for="cidade">Local (Cidade) *</label>
+        <input type="text" id="cidade" placeholder="Ex.: São Paulo">
+      </div>
+
+      <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" id="data">
+      </div>
+
+      <div class="buttons">
+        <button class="btn-copy" onclick="copiarCarta()">📋 Copiar</button>
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir</button>
+        <button class="btn-download" onclick="baixarCarta()">💾 Baixar</button>
+        <button class="btn-clear" onclick="limpar()">🗑️ Limpar</button>
+      </div>
+    </div>
+
+    <div class="preview-section">
+      <h2>Pré-visualização</h2>
+      <div class="preview" id="preview"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copiado com sucesso!</div>
+
+<script>
+  const meses = ['janeiro','fevereiro','março','abril','maio','junho',
+                 'julho','agosto','setembro','outubro','novembro','dezembro'];
+
+  // Preenche data atual
+  const hoje = new Date();
+  document.getElementById('data').value = hoje.toISOString().split('T')[0];
+
+  // Atualiza preview em tempo real
+  const campos = ['sindicato','nome','carteira','empresa','cnpj','endereco','cidade','data'];
+  campos.forEach(id => {
+    document.getElementById(id).addEventListener('input', atualizar);
+  });
+
+  function val(id) {
+    return document.getElementById(id).value.trim();
+  }
+
+  function ph(id, texto) {
+    const v = val(id);
+    return v ? v : `<span class="placeholder">[${texto}]</span>`;
+  }
+
+  function formatarData() {
+    const d = val('data');
+    if (!d) return { dia: '___', mes: '___', ano: '___' };
+    const [ano, mes, dia] = d.split('-');
+    return { dia: parseInt(dia), mes: meses[parseInt(mes)-1], ano: ano };
+  }
+
+  function atualizar() {
+    const dt = formatarData();
+    const carta =
+`Ao Sindicato ${ph('sindicato','nome do sindicato')}
+
+Eu ${ph('nome','nome completo')}, portador da carteira profissional n.º ${ph('carteira','nº da carteira')}, regularmente registrado na empresa ${ph('empresa','nome da empresa')}, CNPJ nº ${ph('cnpj','CNPJ')}, com sede à ${ph('endereco','endereço')}, não sindicalizado, manifesto oposição ao desconto em folha de pagamento a título de contribuição assistencial, sindical ou outras contribuições em favor dessa entidade.
+
+Atenciosamente,
+
+${ph('cidade','Local')}, ${dt.dia} de ${dt.mes} de ${dt.ano}
+
+________________________________
+      ${ph('nome','nome completo')}`;
+
+    document.getElementById('preview').innerHTML = carta;
+  }
+
+  function cartaTexto() {
+    const dt = formatarData();
+    return `Ao Sindicato ${val('sindicato') || '____________________'}
+
+Eu ${val('nome') || '____________________'}, portador da carteira profissional n.º ${val('carteira') || '______'}, regularmente registrado na empresa ${val('empresa') || '____________________'}, CNPJ nº ${val('cnpj') || '________________'}, com sede à ${val('endereco') || '____________________'}, não sindicalizado, manifesto oposição ao desconto em folha de pagamento a título de contribuição assistencial, sindical ou outras contribuições em favor dessa entidade.
+
+Atenciosamente,
+
+${val('cidade') || '________'}, ${dt.dia} de ${dt.mes} de ${dt.ano}
+
+________________________________
+      ${val('nome') || '____________________'}`;
+  }
+
+  function copiarCarta() {
+    const texto = cartaTexto();
+    navigator.clipboard.writeText(texto).then(() => mostrarToast('Copiado para a área de transferência!'));
+  }
+
+  function baixarCarta() {
+    const texto = cartaTexto();
+    const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `carta_oposicao_sindical_${val('nome') || 'modelo'}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    mostrarToast('Arquivo baixado!');
+  }
+
+  function limpar() {
+    if (!confirm('Deseja realmente limpar todos os campos?')) return;
+    campos.forEach(id => {
+      if (id !== 'data') document.getElementById(id).value = '';
+    });
+    atualizar();
+  }
+
+  function mostrarToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Máscara simples para CNPJ
+  document.getElementById('cnpj').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g, '').slice(0,14);
+    v = v.replace(/^(\d{2})(\d)/, '$1.$2')
+         .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+         .replace(/\.(\d{3})(\d)/, '.$1/$2')
+         .replace(/(\d{4})(\d)/, '$1-$2');
+    e.target.value = v;
+  });
+
+  atualizar();
+</script>
+</body>
+</html>
